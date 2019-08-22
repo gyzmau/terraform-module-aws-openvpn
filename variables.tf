@@ -91,9 +91,9 @@ variable "root_volume_type" {
   type        = "string"
 }
 
-variable "subnet_ids" {
-	description = "List of Subnet IDs to launch the instance in (e.g.: ['subnet-0zfg04s2','subnet-6jm2z54q'])."
-  type        = "list"
+variable "subnet_id" {
+	description = "the  Subnet IDs to launch the instance in (e.g.: 'subnet-0zfg04s2')."
+  type        = "string"
 }
 
 variable "ttl" {
