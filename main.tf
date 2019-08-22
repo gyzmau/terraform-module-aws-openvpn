@@ -39,7 +39,7 @@ resource "aws_instance" "openvpn" {
 data "template_file" "openvpn" {
   count    = 1
   template = "${file("${path.module}/templates/cloud-config/init.tpl")}"
-  vars {
+  vars = {
     domain       = "${var.domain}"
     hostname     = "${var.prefix}${var.name}${format("%02d", count.index + 1)}"
     openvpn_args = "-s ${var.vpn_cidr} ${length(var.vpn_dns) > 0 ? "-d -n join(',', var.vpn_dns)" : ""} ${join(" ", data.template_file.openvpn_rule.*.rendered)}"
@@ -49,7 +49,7 @@ data "template_file" "openvpn" {
 data "template_file" "openvpn_rule" {
   count    = "${length(var.vpn_allowed_cidrs)}"
   template = "-p 'route $${network_addr} $${network_mask}'"
-  vars {
+  vars = {
     network_addr = "${cidrhost(var.vpn_allowed_cidrs[count.index], 0)}"
     network_mask = "${cidrnetmask(var.vpn_allowed_cidrs[count.index])}"
   }
